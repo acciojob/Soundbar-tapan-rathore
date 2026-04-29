@@ -1,28 +1,23 @@
-//your JS code here. If required.
+const buttons = document.querySelectorAll(".btn");
 
-const sounds = {
-	applause: new Audio("sounds/applause.mp3"),
-	boo: new Audio("sounds/boo.mp3"),
-	gasp: new Audio("sounds/gasp.mp3"),
-	tada: new Audio("sounds/tada.mp3"),
-	victory: new Audio("sounds/victory.mp3"),
-	wrong: new Audio("sounds/wrong.mp3")
-};
+// Create ONE audio element (important for Cypress)
+const audio = document.createElement("audio");
+document.body.appendChild(audio);
 
-document.querySelectorAll(".btn").forEach(btn=>{
-	btn.addEventListener("click", ()=>{
-		const key = btn.innerText;
-		if(key=="stop"){
-			Object.values(sounds).forEach(sound =>{
-				sound.pause();
-				sound.currentTime=0;
-			});
-		}else{
-			sounds[key].currenTime=0;
-			sounds[key].play();
-		}
-	})
-})
+buttons.forEach(button => {
+    button.addEventListener("click", () => {
 
+        const sound = button.textContent;
 
+        // STOP button
+        if (button.classList.contains("stop")) {
+            audio.pause();
+            audio.currentTime = 0;
+            return;
+        }
 
+        // Set audio source and play
+        audio.src = `sounds/${sound}.mp3`;
+        audio.play();
+    });
+});
